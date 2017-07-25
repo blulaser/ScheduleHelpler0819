@@ -33,7 +33,12 @@ public class MessagingService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        sendMsg(1,1);
+        if (intent == null) {
+            // 서비스가 종료 후 다시 시작했을 때.
+            //return Service.START_STICKY;
+        } else {
+            sendMsg(1,1);
+        }
 
         return super.onStartCommand(intent, flags, startId);
     }
