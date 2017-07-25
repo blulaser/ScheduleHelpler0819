@@ -59,11 +59,21 @@ public class MainActivity extends AppCompatActivity
         int permissionCheckResult = ContextCompat.checkSelfPermission(
                 this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int permissionCheckResult2 = ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.INTERNET);
+        int permissionCheckResult3 = ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION);
+        int permissionCheckResult4 = ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION);
 
-        if (permissionCheckResult != PackageManager.PERMISSION_GRANTED) {
+
+        if (permissionCheckResult != PackageManager.PERMISSION_GRANTED||permissionCheckResult2!=PackageManager.PERMISSION_DENIED||permissionCheckResult3!=PackageManager.PERMISSION_DENIED||permissionCheckResult4!=PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(
                     this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.INTERNET},
                     Const.MY_PERMISSION_REQUEST_STORAGE);
         } else {
 
