@@ -1,8 +1,10 @@
 package com.sbc.sk.schedulehelper;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -29,7 +31,9 @@ public class saveScheduleActivity extends Activity {
     private EditText editText1;
     private EditText editText2;
     private EditText editText3;
+
     public SQLiteDatabase db;
+    public DatabaseHelper dbHelper;
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -73,7 +77,8 @@ public class saveScheduleActivity extends Activity {
 
 
                // Toast.makeText(getApplicationContext(),year+""+month+""+day+""+hour+""+minute++et2,Toast.LENGTH_LONG).show();
-                db = MainActivity.returnDB();
+                dbHelper = new DatabaseHelper(getApplicationContext(), Const.DATABASE_NAME, null, Const.DATABASE_VERSION);
+                db = dbHelper.getWritableDatabase();
                 insertRecord((String) title, (year+2000), month, day, hour, minute, (year+2000), month, day, (hour+1), minute);
 
 
@@ -142,6 +147,23 @@ public class saveScheduleActivity extends Activity {
         editor.putInt("sc_id", sc_id+1);
         editor.putInt("sc_account", sc_account+1);
         editor.commit();
+    }
+
+    private class DatabaseHelper extends SQLiteOpenHelper {
+
+        public DatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+            super(context, name, factory, version);
+        }
+
+        @Override
+        public void onCreate(SQLiteDatabase db) {
+
+        }
+
+        @Override
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+        }
     }
 
 

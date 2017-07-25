@@ -8,9 +8,11 @@ package com.sbc.sk.schedulehelper;
 
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
 import android.os.IBinder;
 import android.support.annotation.IntDef;
@@ -20,6 +22,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class AnalysisReply extends Service {
+    public DatabaseHelper dbHelper;
     public SQLiteDatabase db;
 
     public CharSequence command;
@@ -74,7 +77,10 @@ public class AnalysisReply extends Service {
     }
 
     public int Analysis_command(CharSequence input) {
-        db = MainActivity.returnDB();
+        dbHelper = new DatabaseHelper(getApplicationContext(), Const.DATABASE_NAME, null, Const.DATABASE_VERSION);
+        db = dbHelper.getWritableDatabase();
+
+        //db = MainActivity.returnDB();
 
         String input_s = input.toString();
         char fn_character = input_s.charAt(0);
@@ -305,6 +311,23 @@ public class AnalysisReply extends Service {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private class DatabaseHelper extends SQLiteOpenHelper {
+
+        public DatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+            super(context, name, factory, version);
+        }
+
+        @Override
+        public void onCreate(SQLiteDatabase db) {
+
+        }
+
+        @Override
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
         }
     }
 }

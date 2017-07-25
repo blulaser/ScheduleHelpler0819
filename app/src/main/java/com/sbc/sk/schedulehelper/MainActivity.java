@@ -30,7 +30,7 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     public DatabaseHelper dbHelper;
-    public static SQLiteDatabase db;
+    public SQLiteDatabase db;
 
     private Messenger mService;
     private boolean mBound;
@@ -43,8 +43,8 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         // 초기 화면을 CalendarFragment로 설정.
-        FragmentManager manager = getFragmentManager();
-        manager.beginTransaction().replace(R.id.content_main, new CalendarFragment()).commit();
+        //FragmentManager manager = getFragmentManager();
+        //manager.beginTransaction().replace(R.id.content_main, new CalendarFragment()).commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity
 
         public DatabaseHelper(Context context) {
             //Documents 폴더에 데이터베이스 저장(db파일 접근 가능 / 어플 삭제시 db가 살아있음)
-            //super(context, Environment.getExternalStorageDirectory().getPath() + "/Documents/" + DATABASE_NAME+ ".db", null, DATABASE_VERSION);
+            //super(context, Environment.getExternalStorageDirectory().getPath() + "/Documents/" + Const.DATABASE_NAME+ ".db", null, Const.DATABASE_VERSION);
 
             //앱 데이타 안에 데이터베이스 저장(db파일 접근 불가 / 어플 삭제시 db도 삭제)
             super(context, Const.DATABASE_NAME, null, Const.DATABASE_VERSION);
@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity
                     + " _id integer PRIMARY KEY autoincrement, "
                     + " locationid integer, "
                     + " location text)";
-            db.execSQL(CREATE_LOCATION);
+            //db.execSQL(CREATE_LOCATION);
         }
 
         public void onOpen(SQLiteDatabase db) {
@@ -157,10 +157,6 @@ public class MainActivity extends AppCompatActivity
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
         }
-    }
-
-    public static SQLiteDatabase returnDB() {
-        return db;
     }
 
     @Override
@@ -189,8 +185,6 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Snackbar.make(getWindow().getDecorView().getRootView(), "아직 지원되지 않는 기능입니다.", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
             sendMsg(1,1);
             return true;
         }
