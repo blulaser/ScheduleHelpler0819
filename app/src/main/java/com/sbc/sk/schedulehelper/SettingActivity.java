@@ -2,11 +2,19 @@ package com.sbc.sk.schedulehelper;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 
 public class SettingActivity extends Activity {
@@ -14,8 +22,8 @@ public class SettingActivity extends Activity {
 
 
     private Button btnShowLocation;
-    private Button serviceon;
-    private Button serviceoff;
+    private Button change;
+    private EditText et_previousschuedule;
 
     private TextView txtLat;
 
@@ -39,19 +47,42 @@ public class SettingActivity extends Activity {
 
 
         btnShowLocation = (Button) findViewById(R.id.btn_start);
-        serviceon = (Button)findViewById(R.id.Serviceon);
+        change = (Button)findViewById(R.id.button_change);
         txtLat = (TextView) findViewById(R.id.Latitude);
         txtLon = (TextView) findViewById(R.id.Longitude);
+        et_previousschuedule = (EditText)findViewById(R.id.et_previousschedule);
 
 
 
 
 
 
-        serviceon.setOnClickListener(new View.OnClickListener(){
+        change.setOnClickListener(new View.OnClickListener(){
             public void onClick(View arg0){
-                gps = new GPS(SettingActivity.this);
-                gps.getLocation();
+                String ps = et_previousschuedule.getText().toString();
+                int year =  Integer.parseInt(ps.substring(0,2));
+                int month = Integer.parseInt(ps.substring(3,5));
+                int day = Integer.parseInt(ps.substring(6,8));
+                int hour = Integer.parseInt(ps.substring(9,11));
+                int minute = Integer.parseInt(ps.substring(12,14));
+                int duration = Integer.parseInt(ps.substring(15,17));
+                Toast.makeText(getApplicationContext(),year+" "+month+" "+day+" "+hour+" "+minute,Toast.LENGTH_LONG).show();
+                FileOutputStream fo = null;
+                File file = new File(Environment.getExternalStorageDirectory().getPath()+ "/Documents/" + "schedule" + ".txt");
+                try {
+                    fo = new FileOutputStream(file);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                String a = new String(ps.substring(0,2)+ps.substring(3,5)+ps.substring(6,8)+" "+ps.substring(9,11)+ps.substring(12,14)+" "+ps.substring(15,17));
+                try {
+                    fo.write(a.getBytes());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+
             }
         });
 

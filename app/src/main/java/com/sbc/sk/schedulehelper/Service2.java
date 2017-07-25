@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
@@ -15,6 +16,9 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -88,10 +92,10 @@ public class Service2 extends Service {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(getApplicationContext())
                         .setSmallIcon(R.drawable.ic_launcher)
-                        .setContentTitle("aa")
-                        .setContentText("bb")
-                        .addAction(R.drawable.ic_launcher,"ss",pi)
-                        .setContentIntent(pi);
+                        .setContentTitle("스케줄자동저장기능")
+                        .setContentText("같은장소에 계속머물렀습니다 스케줄로 저장하시겠습니까?")
+                        .addAction(R.drawable.ic_launcher,"Yes",pi);
+
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         byte [] buffer = new byte[6];
         byte [] buffer2 = new byte[2];
@@ -99,7 +103,7 @@ public class Service2 extends Service {
 
 
 
-        @Override public void run() { for (count = 0; count < 5; count++) { // STOP 버튼을 눌렀다면 종료한다.
+        @Override public void run() { for (count = 0; count < 6; count++) { // STOP 버튼을 눌렀다면 종료한다.
 
 
         if (isStop) { break; } /** * Thread 안에서는 UI와 관련된 Toast를 쓸 수 없습니다. * 따라서, Handler를 통해 이용할 수 있도록 만들어줍니다. */
@@ -133,9 +137,14 @@ public class Service2 extends Service {
                    // Toast.makeText(getApplicationContext(), "#"+distance + "m," + gps2.lat + "," + gps2.lon + " "+lat1+","+lon1, Toast.LENGTH_SHORT).show();
                    isStop=true;
                 }
-                if(count==1)
+                if(count==5)
                 {
-                    InputStream is = getApplicationContext().getResources().openRawResource(R.raw.schedule);
+                    FileInputStream is = null;
+                    try {
+                        is = new FileInputStream(new File(Environment.getExternalStorageDirectory().getPath()+ "/Documents/" + "schedule" + ".txt"));
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
                     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                     String dr;
                     int dr_i=0;
@@ -204,7 +213,7 @@ public class Service2 extends Service {
             // Log로 Count 찍어보기
             Log.d("COUNT,", count + ""); } });
         // Sleep을 통해 1초씩 쉬도록 한다.
-        try { Thread.sleep(1000*5); } catch (InterruptedException e) { e.printStackTrace(); } } handler.post(new Runnable() { @Override public void run() { Toast.makeText(getApplicationContext(), "서비스가 종료되었습니다.", Toast.LENGTH_SHORT).show(); } }); } }
+        try { Thread.sleep(1000*3); } catch (InterruptedException e) { e.printStackTrace(); } } handler.post(new Runnable() { @Override public void run() { Toast.makeText(getApplicationContext(), "서비스가 종료되었습니다.", Toast.LENGTH_SHORT).show(); } }); } }
 
 
 

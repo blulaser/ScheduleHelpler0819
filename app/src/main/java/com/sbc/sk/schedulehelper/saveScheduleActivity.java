@@ -1,12 +1,17 @@
 package com.sbc.sk.schedulehelper;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -24,6 +29,7 @@ public class saveScheduleActivity extends Activity {
     private EditText editText1;
     private EditText editText2;
     private EditText editText3;
+    public SQLiteDatabase db;
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -41,7 +47,7 @@ public class saveScheduleActivity extends Activity {
 
 
 
-        editText2.setText("60");
+        editText2.setText("50");
         editText3.setText(hour_s);
 
 
@@ -49,10 +55,10 @@ public class saveScheduleActivity extends Activity {
 
         btn1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
-                String et1 = editText1.getText().toString();
+                String title = editText1.getText().toString();
                 String et2 = editText2.getText().toString();
                 String et3 = editText3.getText().toString();
-                byte[] b1 = et1.getBytes();
+
 
 
 
@@ -65,22 +71,77 @@ public class saveScheduleActivity extends Activity {
                 int hour = Integer.parseInt(et3.substring(9,11));
                 int minute = Integer.parseInt(et3.substring(12,14));
 
-                Toast.makeText(getApplicationContext(),year+" "+month+ " "+ day + " "+hour + " "+ minute,Toast.LENGTH_LONG).show();
 
-               // ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                //byteArrayOutputStream.write(b1,0,b1.length);
-               // byteArrayOutputStream.write(year);
-                //byte[] a =  byteArrayOutputStream.toByteArray();
-                //String a2b = new String(a,0,a.length);
+               // Toast.makeText(getApplicationContext(),year+""+month+""+day+""+hour+""+minute++et2,Toast.LENGTH_LONG).show();
+                db = MainActivity.returnDB();
+                insertRecord((String) title, (year+2000), month, day, hour, minute, (year+2000), month, day, (hour+1), minute);
 
 
+              //  ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+              //  byteArrayOutputStream.write(b1,0,b1.length);
+              //  byteArrayOutputStream.write(year);
+              //  byte[] a =  byteArrayOutputStream.toByteArray();
+              //  String a2b = new String(a,0,a.length);
 
-               // Toast.makeText(getApplicationContext(),a2b,Toast.LENGTH_LONG).show();
+
+
+                //Toast.makeText(getApplicationContext(),a2b,Toast.LENGTH_LONG).show();
 
 
            }
         });
 
+    }
+    public void insertRecord(
+            String sctitle,
+            int startyear,
+            int startmonth,
+            int startdate,
+            int starthour,
+            int startminute,
+            int endyear,
+            int endmonth,
+            int enddate,
+            int endhour,
+            int endminute
+    ) {
+        SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
+        int sc_id = pref.getInt("sc_id", 0);
+        int sc_account = pref.getInt("sc_account", 0);
+
+        String INSERT_SQL = "insert into " + Const.TABLE_NAME + "("
+                + "scid, "
+                + "sctitle, "
+                + "startyear, "
+                + "startmonth, "
+                + "startdate, "
+                + "starthour, "
+                + "startminute, "
+                + "endyear, "
+                + "endmonth, "
+                + "enddate, "
+                + "endhour, "
+                + "endminute"
+                + ") "
+                + "values ("
+                + sc_id + ", "
+                + "'" + sctitle + "', "
+                + startyear + ", "
+                + startmonth + ", "
+                + startdate + ", "
+                + starthour + ", "
+                + startminute + ", "
+                + endyear + ", "
+                + endmonth + ", "
+                + enddate + ", "
+                + endhour + ", "
+                + endminute + ");";
+        db.execSQL(INSERT_SQL);
+
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putInt("sc_id", sc_id+1);
+        editor.putInt("sc_account", sc_account+1);
+        editor.commit();
     }
 
 

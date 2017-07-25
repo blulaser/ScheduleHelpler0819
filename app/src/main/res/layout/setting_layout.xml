@@ -4,15 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btn_start"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/currentlatitude"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="39dp" />
+        android:text="current latitude" />
 
     <TextView
         android:id="@+id/Latitude"
@@ -23,6 +21,12 @@
         tools:layout_editor_absoluteY="407dp" />
 
     <TextView
+        android:id="@+id/currentlongitude"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="current longitude" />
+
+    <TextView
         android:id="@+id/Longitude"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -31,11 +35,31 @@
         tools:layout_editor_absoluteY="365dp" />
 
     <Button
-        android:id="@+id/Serviceon"
-        android:layout_width="wrap_content"
+        android:id="@+id/btn_start"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:text="startlocationservice"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="128dp" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="previous schedule change" />
+
+    <EditText
+        android:id="@+id/et_previousschedule"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="17 07 27 10:00 60" />
+
+    <Button
+        android:id="@+id/button_change"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="change" />
 
 </LinearLayout>
