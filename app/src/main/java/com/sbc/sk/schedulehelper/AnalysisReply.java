@@ -140,6 +140,22 @@ public class AnalysisReply extends Service {
             sendRecord((String) sc_title, (sc_year+2000), sc_month, sc_day, sc_hour, sc_min, (sc_year+2000), sc_month, sc_day, (sc_hour+1), sc_min);
             return 2;
         }
+        else if(fn_character == '%'){
+            Intent i = new Intent(getApplicationContext(), SettingActivity.class);
+
+            PendingIntent p = PendingIntent.getActivity(getApplicationContext(), 0, i, 0);
+
+            try {
+
+                p.send();
+
+            } catch (PendingIntent.CanceledException e) {
+
+                e.printStackTrace();
+
+            }
+            return 4;
+        }
 
         else {
             fn_number = 0;
