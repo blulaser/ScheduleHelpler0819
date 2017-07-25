@@ -80,6 +80,7 @@ public class saveScheduleActivity extends Activity {
                 dbHelper = new DatabaseHelper(getApplicationContext(), Const.DATABASE_NAME, null, Const.DATABASE_VERSION);
                 db = dbHelper.getWritableDatabase();
                 insertRecord((String) title, (year+2000), month, day, hour, minute, (year+2000), month, day, (hour+1), minute);
+                Toast.makeText(getApplicationContext(),"저장이 완료되었습니다",Toast.LENGTH_SHORT).show();
 
 
               //  ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();

@@ -60,7 +60,7 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
         SharedPreferences pref = getActivity().getSharedPreferences("pref", MODE_PRIVATE);
         int sc_account = pref.getInt("sc_account", 0);
 
-        for (int traveler = 1; traveler<=sc_account-1; traveler++) {
+        for (int traveler = 0; traveler<=sc_account-1; traveler++) {
             String SELECT_SQL = "select "
                     + " sctitle, "
                     + " startyear, "
