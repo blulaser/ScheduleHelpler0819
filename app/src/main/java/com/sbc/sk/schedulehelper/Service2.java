@@ -6,6 +6,9 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Environment;
@@ -25,9 +28,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
+
 public class Service2 extends Service {
     Location location;
     protected LocationManager locationManager;
+    public DatabaseHelper dbHelper;
+    public SQLiteDatabase db;
 
     private GPS gps2;
     private boolean isStop;
@@ -38,6 +44,14 @@ public class Service2 extends Service {
     Location locationA = new Location("point A");
     double distance;
     Location locationB = new Location("point B");
+    String[] projection = {
+
+
+
+    };
+
+
+
 
     // 최소 GPS 정보 업데이트 시간 밀리세컨이므로 1분
 
@@ -60,6 +74,13 @@ public class Service2 extends Service {
         Log.d("test", "서비스의 onCreate");
 
         locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
+        dbHelper = new DatabaseHelper(getApplicationContext(), Const.DATABASE_NAME, null, Const.DATABASE_VERSION);
+        db = dbHelper.getReadableDatabase();
+
+
+
+
+
 
 
 
@@ -72,6 +93,11 @@ public class Service2 extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         // 서비스가 호출될 때마다 실행
         Log.d("test", "서비스의 onStartCommand");
+        Cursor c = db.rawQuery("SELECT*FROM "+Const.TABLE_NAME,null);
+        c.moveToFirst();
+
+        Toast.makeText(getApplicationContext(),c.getInt(3)+" "+c.getInt(4)+" "+c.getInt(5)+" "+c.getInt(6)+" "+c.getInt(7)+" "+c.getInt(8)+" "+c.getInt(9)+" "+c.getInt(10)+" "+c.getInt(11)+" "+c.getInt(12),Toast.LENGTH_LONG).show();
+
         Thread counter = new Thread(new Counter()); counter.start();
 
         return super.onStartCommand(intent, flags, startId);
@@ -229,6 +255,22 @@ public class Service2 extends Service {
         super.onDestroy();
         isStop = true;
         // 서비스가 종료될 때 실행
+    }
+    private class DatabaseHelper extends SQLiteOpenHelper {
+
+        public DatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+            super(context, name, factory, version);
+        }
+
+        @Override
+        public void onCreate(SQLiteDatabase db) {
+
+        }
+
+        @Override
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+        }
     }
 
 
