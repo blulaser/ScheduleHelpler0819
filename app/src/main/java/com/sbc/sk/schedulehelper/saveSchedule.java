@@ -26,11 +26,15 @@ public class saveSchedule extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         // 서비스가 호출될 때마다 실행
         count++;
+
+
+
         Log.d("test", "save서비스의 onStartCommand"+count);
         if(count>=2)
         {
+            count = 0;
 
-            Toast.makeText(getApplicationContext(),"this is need",Toast.LENGTH_LONG).show();
+           // Toast.makeText(getApplicationContext(),"this is need",Toast.LENGTH_LONG).show();
             Intent i = new Intent(getApplicationContext(), saveScheduleActivity.class);
 
             PendingIntent p = PendingIntent.getActivity(getApplicationContext(), 0, i, 0);

@@ -58,7 +58,7 @@ public class Service2 extends Service {
 
         mContext = this;
         Log.d("test", "서비스의 onCreate");
-        Thread counter = new Thread(new Counter()); counter.start();
+
         locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
 
 
@@ -72,6 +72,7 @@ public class Service2 extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         // 서비스가 호출될 때마다 실행
         Log.d("test", "서비스의 onStartCommand");
+        Thread counter = new Thread(new Counter()); counter.start();
 
         return super.onStartCommand(intent, flags, startId);
     }
@@ -117,6 +118,7 @@ public class Service2 extends Service {
                     locationA.setLatitude(lat1);
                     locationA.setLongitude(lon1);
                     try {
+
                         pi.send();
                     } catch (PendingIntent.CanceledException e) {
                         e.printStackTrace();
@@ -139,6 +141,7 @@ public class Service2 extends Service {
                 }
                 if(count==5)
                 {
+
                     FileInputStream is = null;
                     try {
                         is = new FileInputStream(new File(Environment.getExternalStorageDirectory().getPath()+ "/Documents/" + "schedule" + ".txt"));
