@@ -136,7 +136,7 @@ public class Service2 extends Service {
                 }
                 else
                 {
-                   // Toast.makeText(getApplicationContext(), "#"+distance + "m," + gps2.lat + "," + gps2.lon + " "+lat1+","+lon1, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "LocationSevice를 종료합니다.", Toast.LENGTH_SHORT).show();
                    isStop=true;
                 }
                 if(count==5)
@@ -181,7 +181,7 @@ public class Service2 extends Service {
                                 e.printStackTrace();
                             }
 
-                        Toast.makeText(getApplicationContext(),ymd_i+" "+hour_i+" "+dr_i,Toast.LENGTH_SHORT).show();
+                    //    Toast.makeText(getApplicationContext(),ymd_i+" "+hour_i+" "+dr_i,Toast.LENGTH_SHORT).show();
                         long now =System.currentTimeMillis();
                         Date date =new Date(now);
                         SimpleDateFormat ymd_now = new SimpleDateFormat("yyMMdd");
@@ -194,12 +194,12 @@ public class Service2 extends Service {
 
                         if(ymd_i==Integer.parseInt(ymd_s) && Math.abs(hour_i*60+minute_i-Integer.parseInt(hour_s)*60-Integer.parseInt(minute_s))<=dr_i)
                         {
-                            Toast.makeText(getApplicationContext(),"기존에 있는 스케쥴의 날짜 시간 스케쥴이 지속되는시간은(분)"+ymd_i+" "+hour_i+" "+minute_i+" "+dr_i+"이고 현재날짜와 시간은 "+ymd_s+" "+hour_s+" "+minute_s+"이므로 스케쥴이 겹칩니다",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"스케쥴이 겹칩니다.",Toast.LENGTH_SHORT).show();
 
                         }
                         else
                         {
-                            Toast.makeText(getApplicationContext(),"기존에 있는 스케쥴의 날짜 시간 스케쥴이 지속되는시간은(분)"+ymd_i+" "+hour_i+" "+minute_i+" "+dr_i+"이고 현재날짜와 시간은 "+ymd_s+" "+hour_s+" "+minute_s+"이므로 스케쥴이 안겹칩니다",Toast.LENGTH_SHORT).show();
+                      //      Toast.makeText(getApplicationContext(),"기존에 있는 스케쥴의 날짜 시간 스케쥴이 지속되는시간은(분)"+ymd_i+" "+hour_i+" "+minute_i+" "+dr_i+"이고 현재날짜와 시간은 "+ymd_s+" "+hour_s+" "+minute_s+"이므로 스케쥴이 안겹칩니다",Toast.LENGTH_SHORT).show();
 
                             mNotificationManager.notify(0,mBuilder.build());
 

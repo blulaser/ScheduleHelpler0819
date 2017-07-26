@@ -51,7 +51,7 @@ public class saveScheduleActivity extends Activity {
 
 
 
-        editText2.setText("50");
+        editText2.setText("60");
         editText3.setText(hour_s);
 
 

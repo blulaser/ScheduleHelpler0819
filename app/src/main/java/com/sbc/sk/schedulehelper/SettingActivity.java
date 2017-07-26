@@ -110,7 +110,7 @@ public class SettingActivity extends Activity {
                     txtLat.setText(String.valueOf(latitude));
                     txtLon.setText(String.valueOf(longitude));
 
-                    Toast.makeText(getApplicationContext(),"당신의 위치 - \n위도: " + latitude + "\n경도: " + longitude, Toast.LENGTH_LONG).show();
+                   // Toast.makeText(getApplicationContext(),"당신의 위치 - \n위도: " + latitude + "\n경도: " + longitude, Toast.LENGTH_LONG).show();
 
 
                     Intent intent = new Intent(
