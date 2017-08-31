@@ -24,6 +24,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -93,14 +94,7 @@ public class Service2 extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         // 서비스가 호출될 때마다 실행
         Log.d("test", "서비스의 onStartCommand");
-        Cursor c = db.rawQuery("SELECT*FROM "+Const.TABLE_NAME,null);
-        c.moveToFirst();
 
-        Toast.makeText(getApplicationContext(),c.getInt(3)+" "+c.getInt(4)+" "+c.getInt(5)+" "+c.getInt(6)+" "+c.getInt(7)+" "+c.getInt(8)+" "+c.getInt(9)+" "+c.getInt(10)+" "+c.getInt(11)+" "+c.getInt(12),Toast.LENGTH_LONG).show();
-        while(c.moveToNext())
-        {
-            Toast.makeText(getApplicationContext(),c.getInt(3)+" "+c.getInt(4)+" "+c.getInt(5)+" "+c.getInt(6)+" "+c.getInt(7)+" "+c.getInt(8)+" "+c.getInt(9)+" "+c.getInt(10)+" "+c.getInt(11)+" "+c.getInt(12),Toast.LENGTH_LONG).show();
-        }
         Thread counter = new Thread(new Counter()); counter.start();
 
         return super.onStartCommand(intent, flags, startId);
@@ -168,6 +162,52 @@ public class Service2 extends Service {
                     Toast.makeText(getApplicationContext(), "LocationSevice를 종료합니다.", Toast.LENGTH_SHORT).show();
                    isStop=true;
                 }
+            Cursor c = db.rawQuery("SELECT*FROM "+Const.TABLE_NAME,null);
+            c.moveToFirst();
+
+            if(c.getCount()!=0)
+            {
+                SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd-HH:mm");
+/*
+                String a1 = new String(""+c.getInt(4));
+                if(c.getInt(4)<10) {a1 = new String("0"+c.getInt(4));}
+                String a2 = new String(""+c.getInt(5));
+                if(c.getInt(5)<10) {a2 = new String("0"+c.getInt(5));}
+                String a3 = new String(""+c.getInt(6));
+                if(c.getInt(6)<10) {a3 = new String("0"+c.getInt(6));}
+                String a4 = new String(""+c.getInt(7));
+                if(c.getInt(7)<10) {a4 = new String("0"+c.getInt(7));}
+                String A = new String(c.getInt(3)+"-"+a1+"-"+a2+"-"+a3+":"+a4);
+                String b1 = new String(""+c.getInt(9));
+                if(c.getInt(9)<10) {b1 = new String("0"+c.getInt(9));}
+                String b2 = new String(""+c.getInt(10));
+                if(c.getInt(10)<10) {b2 = new String("0"+c.getInt(10));}
+                String b3 = new String(""+c.getInt(11));
+                if(c.getInt(11)<10) {b3 = new String("0"+c.getInt(11));}
+                String b4 = new String(""+c.getInt(12));
+                if(c.getInt(12)<10) {b4 = new String("0"+c.getInt(12));}
+                String B = new String(c.getInt(8)+"-"+b1+"-"+b2+"-"+b3+":"+b4);
+   */
+                String A = new String(c.getInt(3)+"-"+c.getInt(4)+"-"+c.getInt(5)+"-"+c.getInt(6)+":"+c.getInt(7));
+                String B = new String(c.getInt(8)+"-"+c.getInt(9)+"-"+c.getInt(10)+"-"+c.getInt(11)+":"+c.getInt(12));
+                try {
+                    Date begintime = time.parse(A);
+                    Date endtime = time.parse(B);
+                    long diff = endtime.getTime()-begintime.getTime();
+                    Toast.makeText(getApplicationContext(),""+diff,Toast.LENGTH_LONG).show();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                Toast.makeText(getApplicationContext(),c.getInt(3)+" "+c.getInt(4)+" "+c.getInt(5)+" "+c.getInt(6)+" "+c.getInt(7)+" "+c.getInt(8)+" "+c.getInt(9)+" "+c.getInt(10)+" "+c.getInt(11)+" "+c.getInt(12),Toast.LENGTH_LONG).show();
+            }
+
+
+
+            while(c.moveToNext())
+            {
+                Toast.makeText(getApplicationContext(),c.getInt(3)+" "+c.getInt(4)+" "+c.getInt(5)+" "+c.getInt(6)+" "+c.getInt(7)+" "+c.getInt(8)+" "+c.getInt(9)+" "+c.getInt(10)+" "+c.getInt(11)+" "+c.getInt(12),Toast.LENGTH_LONG).show();
+            }
                 if(count==5)
                 {
 
